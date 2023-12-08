@@ -1,8 +1,11 @@
-Rick and Morty.
+## Rick and Morty.
 
 Este proyecto fue realizado para una prueba de desarrollo.
 
 Utilize el framework Nextjs ya que este me provee de un ambiente fullstack el cual fue necesario para este proyecto ademas con style-components.
+
+
+Deploy: https://rick-and-morty-seven-theta.vercel.app/
 
 ## Clonar el Proyecto desde GitHub
 
