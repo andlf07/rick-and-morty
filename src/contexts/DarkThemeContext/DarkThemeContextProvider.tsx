@@ -1,4 +1,6 @@
+import { defaultTheme, lightTheme } from '@/styles/themes/default';
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 import { DarkThemeContext, DarkThemeInitialState } from '.';
 
 const DarkThemeContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -11,7 +13,7 @@ const DarkThemeContextProvider = ({ children }: { children: React.ReactNode }) =
         dispatchIsDarkTheme: setIsDarkTheme,
       }}
     >
-      {children}
+      <ThemeProvider theme={isDarkTheme ? defaultTheme : lightTheme}>{children}</ThemeProvider>
     </DarkThemeContext.Provider>
   );
 };

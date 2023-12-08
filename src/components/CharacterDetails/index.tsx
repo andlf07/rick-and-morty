@@ -5,90 +5,60 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
-import { Layout } from '..';
-import {
-  AddFavoriteButton,
-  CharacterContainer,
-  Details,
-  GoBack,
-  HeaderContainer,
-  Name,
-} from './styles';
+import { Layout, Spinner } from '..';
+import { Detail } from './components';
+import { AddFavoriteButton, CharacterContainer, GoBack, HeaderContainer, Name } from './styles';
 
 interface Props {}
 
 const CharacterDetails: React.FC<Props> = () => {
   const { handleAddOrRemoveFavorite, checkIfItemAlreadyExists } = useFavorite();
   const params = useParams().id as string;
-  const { character } = useGetCharacterDetails(params);
+  const { character, isLoading } = useGetCharacterDetails(params);
 
   return (
     <Layout>
-      <CharacterContainer>
-        <HeaderContainer>
-          <GoBack href="/">
-            <MdOutlineArrowBackIosNew /> Back
-          </GoBack>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <CharacterContainer>
+          <HeaderContainer>
+            <GoBack href="/">
+              <MdOutlineArrowBackIosNew /> Back
+            </GoBack>
 
+            {character && (
+              <AddFavoriteButton
+                onClick={event => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  handleAddOrRemoveFavorite(character);
+                }}
+              >
+                {checkIfItemAlreadyExists(character.id) > -1 ? <AiFillStar /> : <AiOutlineStar />}
+              </AddFavoriteButton>
+            )}
+          </HeaderContainer>
           {character && (
-            <AddFavoriteButton
-              onClick={event => {
-                event.preventDefault();
-                event.stopPropagation();
-                handleAddOrRemoveFavorite(character);
-              }}
-            >
-              {checkIfItemAlreadyExists(character.id) > -1 ? <AiFillStar /> : <AiOutlineStar />}
-            </AddFavoriteButton>
+            <Image
+              loader={() => character.image}
+              src={character.image}
+              unoptimized
+              width={300}
+              height={300}
+              alt={character.name}
+            />
           )}
-        </HeaderContainer>
-        {character && (
-          <Image
-            loader={() => character.image}
-            src={character.image}
-            unoptimized
-            width={300}
-            height={300}
-            alt={character.name}
-          />
-        )}
-        {character && <Name>{character.name}</Name>}
+          {character && <Name>{character.name}</Name>}
 
-        {character && (
-          <Details>
-            <strong>Tipo</strong>
-            <span>{character.type}</span>
-          </Details>
-        )}
-
-        {character && (
-          <Details>
-            <strong>Origin</strong>
-            <span>{character.origin.name}</span>
-          </Details>
-        )}
-
-        {character && (
-          <Details>
-            <strong>Gender</strong>
-            <span>{character.gender}</span>
-          </Details>
-        )}
-
-        {character && (
-          <Details>
-            <strong>Status</strong>
-            <span>{character.status}</span>
-          </Details>
-        )}
-
-        {character && (
-          <Details>
-            <strong>Specie</strong>
-            <span>{character.species}</span>
-          </Details>
-        )}
-      </CharacterContainer>
+          <Detail label="Tipo" value={character?.type} />
+          <Detail label="Origin" value={character?.origin.name} />
+          <Detail label="Gender" value={character?.gender} />
+          <Detail label="Status" value={character?.status} />
+          <Detail label="Specie" value={character?.type} />
+          <Detail label="Tipo" value={character?.species} />
+        </CharacterContainer>
+      )}
     </Layout>
   );
 };

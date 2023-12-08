@@ -1,4 +1,4 @@
-import { DarkThemeContext } from '@/contexts/DarkThemeContext';
+import { DarkThemeContext } from '@/contexts';
 import React from 'react';
 
 const useDarkTheme = () => {
