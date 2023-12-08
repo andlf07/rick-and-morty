@@ -18,7 +18,6 @@ export interface Inputs {
 const useGetCharacters = () => {
   const {
     register,
-    reset,
     control,
     handleSubmit,
     getValues,
@@ -59,10 +58,8 @@ const useGetCharacters = () => {
   };
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    console.log(data);
     const { filteredArray, filteredQuery } = filteredEndpoint(data);
 
-    reset();
     setFilteredBy(filteredArray);
     setCurrentInfo({ ...currentInfo, current: filteredQuery });
   };
